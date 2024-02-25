@@ -7,10 +7,10 @@ func main() {
 		panic(err)
 	}
 	cfg := mysql.Config{
-		User:                 "root",
-		Passwd:               "shaw123",
-		Addr:                 "127.0.0.1:3306",
-		DBName:               "sra",
+		User:                 Envs.DBUser,
+		Passwd:               Envs.DBPassword,
+		Addr:                 Envs.DBAddress,
+		DBName:               Envs.DBName,
 		Net:                  "tcp",
 		AllowNativePasswords: true,
 		ParseTime:            true,

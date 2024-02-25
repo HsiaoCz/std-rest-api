@@ -19,7 +19,8 @@ func NewAPIServer(addr string, store Store) *APIServer {
 func (s *APIServer) Serve() {
 	r := mux.NewRouter()
 	subRouter := r.PathPrefix("/api/v1").Subrouter()
-
+    // registering our services
+	
 	zap.L().Info("Starting the API server", zap.String("addr", s.addr))
 	http.ListenAndServe(s.addr, subRouter)
 }
