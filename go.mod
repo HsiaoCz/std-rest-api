@@ -3,6 +3,7 @@ module github.com/HsiaoCz/std-rest-api
 go 1.21.3
 
 require (
+	github.com/a-h/templ v0.2.543
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gorilla/mux v1.8.1
 	go.uber.org/zap v1.27.0

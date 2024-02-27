@@ -26,5 +26,6 @@ func (h *Handler) Serve() error {
 	user := r.PathPrefix("/api/v1/user").Subrouter()
 	user.HandleFunc("/signup", h.user.handlerUserSignup).Methods("POST")
 	user.HandleFunc("/login", h.user.handleUserLogin).Methods("POST")
+	user.HandleFunc("/hello", h.user.handleUserSayHello).Methods("POST")
 	return http.ListenAndServe(h.addr, r)
 }

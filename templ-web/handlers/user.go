@@ -16,5 +16,6 @@ func NewUserHandler(store store.Store) *UserHandler {
 	}
 }
 
-func (u *UserHandler) handlerUserSignup(w http.ResponseWriter, r *http.Request) {}
-func (u *UserHandler) handleUserLogin(w http.ResponseWriter, r *http.Request)   {}
+func (u *UserHandler) handlerUserSignup(w http.ResponseWriter, r *http.Request)  {}
+func (u *UserHandler) handleUserLogin(w http.ResponseWriter, r *http.Request)    {}
+func (u *UserHandler) handleUserSayHello(w http.ResponseWriter, r *http.Request) {}
