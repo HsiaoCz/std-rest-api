@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 
@@ -40,4 +41,12 @@ func (s *TasksService) handleCreateTasks(w http.ResponseWriter, r *http.Request)
 		return
 	}
 }
-func (s *TasksService) handleGetTask(w http.ResponseWriter, r *http.Request) {}
+func (s *TasksService) handleGetTask(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	fmt.Println(id)
+}

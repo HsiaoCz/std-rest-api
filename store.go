@@ -4,7 +4,7 @@ import "database/sql"
 
 type Store interface {
 	// users
-	CreateUser() error
+	CreateUser(*User) error
 }
 
 type Storage struct {
@@ -17,6 +17,6 @@ func NewStore(db *sql.DB) *Storage {
 	}
 }
 
-func (s *Storage) CreateUser() error {
+func (s *Storage) CreateUser(*User) error {
 	return nil
 }
