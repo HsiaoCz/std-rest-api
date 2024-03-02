@@ -63,6 +63,7 @@ func handleGetUserProfile(id int) (*UserProfile, error) {
 // need id int return []string and error
 func getComments(id int, respch chan Response, wg *sync.WaitGroup) {
 	time.Sleep(time.Millisecond * 200)
+	fmt.Printf("the id is {%d}\n", id)
 	comments := []string{
 		"Hey,that ws great",
 		"Yeah buddy",
@@ -80,6 +81,7 @@ func getComments(id int, respch chan Response, wg *sync.WaitGroup) {
 // need id int return (likes)int and error
 func getLikes(id int, respch chan Response, wg *sync.WaitGroup) {
 	time.Sleep(time.Millisecond * 200)
+	fmt.Printf("the id is {%d}\n", id)
 	respch <- Response{
 		data: 11,
 		err:  nil,
@@ -92,6 +94,7 @@ func getLikes(id int, respch chan Response, wg *sync.WaitGroup) {
 // need id(int) return friends([]int) and error
 func getFriends(id int, respch chan Response, wg *sync.WaitGroup) {
 	time.Sleep(time.Millisecond * 200)
+	fmt.Printf("the id is {%d}\n", id)
 	respch <- Response{
 		data: []int{11, 34, 854, 455},
 		err:  nil,
