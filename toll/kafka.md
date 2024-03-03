@@ -21,8 +21,17 @@ docker exec -it 2b009cbc32dc /bin/sh
 # inside
 cd /opt/bitnami/kafka/bin 
 
+# create topic
+./kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic obudata
+
 # start producer
 ./kafka-console-producer.sh --broker-list localhost:9092 --topic obudata
+
+# consume the producer
+./kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --from-beginning --topic obudata
+
+# how to delete the producer message?
+# so confuse
 ```
 
 ## Kafka 操作指南
