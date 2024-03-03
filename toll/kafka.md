@@ -12,6 +12,19 @@ docker run -d --name zookeeper -p 2181:2181 -v /etc/localtime:/etc/localtime zoo
 docker run  -d --name kafka -p 9092:9092 -e KAFKA_BROKER_ID=0 -e KAFKA_ZOOKEEPER_CONNECT=192.168.206.1:2181 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://192.168.206.1:9092 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 -t bitnami/kafka
 ```
 
+- 进入容器内部
+
+```bash
+# exec kafka
+docker exec -it 2b009cbc32dc /bin/sh
+
+# inside
+cd /opt/bitnami/kafka/bin 
+
+# start producer
+./kafka-console-producer.sh --broker-list localhost:9092 --topic obudata
+```
+
 ## Kafka 操作指南
 
 安装kafka driver
