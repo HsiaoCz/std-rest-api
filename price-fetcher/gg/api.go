@@ -6,6 +6,8 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
+
+	"github.com/HsiaoCz/std-rest-api/price-fetcher/types"
 )
 
 type APIFunction func(ctx context.Context, w http.ResponseWriter, r *http.Request) error
@@ -23,17 +25,21 @@ func makeHTTPHandler(apiFunc APIFunction) http.HandlerFunc {
 	}
 }
 
-type PriceResponse struct {
-	Ticker string  `json:"ticker"`
-	Price  float64 `json:"price"`
+type JSONAPIServer struct {
+	listenAddr string
+	svc        PriceFetcher
 }
 
-type JSONAPIServer struct {
-	svc PriceFetcher
+func NewJSONAPIServer(listenAddr string, svc PriceFetcher) *JSONAPIServer {
+	return &JSONAPIServer{
+		listenAddr: listenAddr,
+		svc:        svc,
+	}
 }
 
 func (s *JSONAPIServer) Run() {
 	http.HandleFunc("/", makeHTTPHandler(s.handleFetchPrice))
+	http.ListenAndServe(s.listenAddr, nil)
 }
 
 func (s *JSONAPIServer) handleFetchPrice(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
@@ -43,7 +49,7 @@ func (s *JSONAPIServer) handleFetchPrice(ctx context.Context, w http.ResponseWri
 	if err != nil {
 		return err
 	}
-	priceResponse := PriceResponse{
+	priceResponse := types.PriceResponse{
 		Price:  price,
 		Ticker: ticker,
 	}

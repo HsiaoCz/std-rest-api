@@ -1,19 +1,18 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"log"
+	"flag"
 
 	"github.com/HsiaoCz/std-rest-api/price-fetcher/gg"
 )
 
 func main() {
+	listenAddr := flag.String("listenAddr", "127.0.0.1:3301", "set the server listen address")
+	flag.Parse()
 	svc := gg.NewLoggingService(&gg.Pricefetch{})
-	price, err := svc.FetchPrice(context.Background(), "GG")
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	fmt.Printf("price : %v\n", price)
+	server := gg.NewJSONAPIServer(*listenAddr, svc)
+	
+	server.Run()
+
 }
