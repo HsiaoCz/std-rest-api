@@ -6,9 +6,19 @@ import (
 )
 
 func TestNewReceiver(t *testing.T) {
-	receiver, err := NewReceiver[string]("127.0.0.1:3302")
+	receiver, err := NewReceiver[int]("127.0.0.1:3302")
 	if err != nil {
-		t.Fatal(err)
+		t.Error(err)
+		return
 	}
-	fmt.Printf("receiver: %+v\n", receiver)
+	msg := <-receiver.Chan
+	fmt.Printf("msg: %v\n", msg)
+}
+
+func TestSender(t *testing.T) {
+	_, err := NewSender[int]("127.0.0.1:3302")
+	if err != nil {
+		t.Error("new sender err:", err)
+	}
+	select {}
 }
