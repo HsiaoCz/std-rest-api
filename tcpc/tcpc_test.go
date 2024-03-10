@@ -9,8 +9,12 @@ func TestNewReceiver(t *testing.T) {
 	receiver, err := NewReceiver[int]("127.0.0.1:3302")
 	if err != nil {
 		t.Error(err)
-		return
 	}
+	sender, err := NewSender[int]("127.0.0.1:3302")
+	if err != nil {
+		t.Error(err)
+	}
+	sender.Chan <- 100
 	msg := <-receiver.Chan
 	fmt.Printf("msg: %v\n", msg)
 }
