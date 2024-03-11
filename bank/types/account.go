@@ -6,11 +6,12 @@ import (
 )
 
 type Account struct {
-	ID        int    `json:"id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Number    int64  `json:"number"`
-	Balance   int64  `json:"balance"`
+	ID        int       `json:"id"`
+	FirstName string    `json:"first_name"`
+	LastName  string    `json:"last_name"`
+	Number    int64     `json:"number"`
+	Balance   int64     `json:"balance"`
+	CreatedAt time.Time `json:"createdAt"`
 }
 
 func NewAccount(firstName string, lastName string) *Account {
@@ -20,5 +21,11 @@ func NewAccount(firstName string, lastName string) *Account {
 		LastName:  lastName,
 		Number:    rand.New(rand.NewSource(time.Now().UnixNano())).Int63n(100000000),
 		Balance:   0,
+		CreatedAt: time.Now().UTC(),
 	}
+}
+
+type CreateAccountRequest struct {
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
 }
