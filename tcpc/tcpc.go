@@ -7,6 +7,71 @@ import (
 	"time"
 )
 
+// func NewChannel[T any]() (*Sender[T], *Reciver[T]) {}
+
+type TCPC[T any] struct {
+	listenAddr string
+	remoteAddr string
+
+	SendChan chan T
+	RecvChan chan T
+
+	outboundConn net.Conn
+	ln           net.Listener
+}
+
+func New[T any](listenAddr, remoteAddr string) (*TCPC[T], error) {
+	tcpc := &TCPC[T]{
+		listenAddr: listenAddr,
+		remoteAddr: remoteAddr,
+		SendChan:   make(chan T, 10),
+		RecvChan:   make(chan T, 10),
+	}
+	ln, err := net.Listen("tcp", listenAddr)
+	if err != nil {
+		return nil, err
+	}
+	tcpc.ln = ln
+	go tcpc.acceptLoop()
+	return tcpc, nil
+}
+
+func (t *TCPC[T]) dialRemote() {
+	conn, err := net.Dial("tcp", t.remoteAddr)
+	if err != nil {
+		log.Printf("dial error (%s)", err)
+		time.Sleep(time.Second)
+		t.dialRemote()
+	}
+	t.outboundConn = conn
+}
+
+func (t *TCPC[T]) acceptLoop() {
+	defer func() {
+		t.ln.Close()
+	}()
+	for {
+		conn, err := t.ln.Accept()
+		if err != nil {
+			log.Printf("accept error: %v\n", err)
+			return
+		}
+		log.Printf("sender connected %s", conn.RemoteAddr())
+		go t.handleConn(conn)
+	}
+}
+
+func (t *TCPC[T]) handleConn(conn net.Conn) {
+	for {
+		var msg T
+		if err := gob.NewDecoder(conn).Decode(&msg); err != nil {
+			log.Printf("Decode the msg err: %v\n", err)
+			continue
+		}
+		t.RecvChan <- msg
+	}
+}
+
 var defaultDialInterval = 3 * time.Second
 
 type Sender[T any] struct {
@@ -82,6 +147,7 @@ func (r *Reciver[T]) acceptLoop() {
 			log.Printf("accept error: %v\n", err)
 			return
 		}
+		log.Printf("sender connected %s", conn.RemoteAddr())
 		go r.handleConn(conn)
 	}
 }
