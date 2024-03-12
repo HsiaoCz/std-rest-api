@@ -2,6 +2,7 @@ package tcpc
 
 import (
 	"encoding/gob"
+	"fmt"
 	"log"
 	"net"
 	"time"
@@ -32,18 +33,31 @@ func New[T any](listenAddr, remoteAddr string) (*TCPC[T], error) {
 		return nil, err
 	}
 	tcpc.ln = ln
+	go tcpc.loop()
 	go tcpc.acceptLoop()
+	go tcpc.dialRemoteAndRead()
 	return tcpc, nil
 }
 
-func (t *TCPC[T]) dialRemote() {
+func (t *TCPC[T]) dialRemoteAndRead() {
 	conn, err := net.Dial("tcp", t.remoteAddr)
 	if err != nil {
 		log.Printf("dial error (%s)", err)
 		time.Sleep(time.Second)
-		t.dialRemote()
+		t.dialRemoteAndRead()
 	}
 	t.outboundConn = conn
+}
+
+func (t *TCPC[T]) loop() {
+	for {
+		msg := <-t.SendChan
+		log.Println("sending msg over the wire:", msg)
+		fmt.Printf("%+v\n", t.outboundConn)
+		if err := gob.NewEncoder(t.outboundConn).Encode(&msg); err != nil {
+			log.Println(err)
+		}
+	}
 }
 
 func (t *TCPC[T]) acceptLoop() {

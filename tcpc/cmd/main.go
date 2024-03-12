@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"time"
 
 	"github.com/HsiaoCz/std-rest-api/tcpc"
 )
@@ -39,10 +41,19 @@ import (
 // }
 
 func main() {
-	channel, err := tcpc.New[string](":30001", ":40001")
+	channellocal, err := tcpc.New[string](":30001", ":40001")
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	channel.RecvChan <- "GG"
+	go func() {
+		time.Sleep(5 * time.Second)
+		channellocal.SendChan <- "GG"
+	}()
+	channelRemote, err := tcpc.New[string](":40001", ":30001")
+	if err != nil {
+		log.Fatal(err)
+	}
+	time.Sleep(3 * time.Second)
+	msg := <-channelRemote.RecvChan
+	fmt.Printf("receive the message:%v\n", msg)
 }
