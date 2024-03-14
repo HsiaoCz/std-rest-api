@@ -9,6 +9,10 @@ import (
 	"github.com/HsiaoCz/std-rest-api/gpf/types"
 )
 
+// type Client interface {
+// 	FetchPrice()
+// }
+
 type Client struct {
 	endpoint string
 }
