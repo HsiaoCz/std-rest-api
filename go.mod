@@ -14,6 +14,8 @@ require (
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.9.0
 	go.uber.org/zap v1.27.0
+	google.golang.org/grpc v1.54.0
+	google.golang.org/protobuf v1.30.0
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 	gorm.io/gorm v1.25.7
 )
@@ -21,6 +23,7 @@ require (
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect
@@ -35,5 +38,7 @@ require (
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
+	google.golang.org/genproto v0.0.0-20230331144136-dcfb400f0633 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
