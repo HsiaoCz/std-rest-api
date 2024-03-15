@@ -6,7 +6,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/HsiaoCz/std-rest-api/gpf/proto"
 	"github.com/HsiaoCz/std-rest-api/gpf/types"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 // type Client interface {
@@ -45,4 +48,13 @@ func (c *Client) FetchPrice(ctx context.Context, ticker string) (*types.PriceRes
 		return nil, err
 	}
 	return priceResp, nil
+}
+
+func NewGRPCClient(remoteAddr string) (proto.PriceFetcherClient, error) {
+	conn, err := grpc.Dial(remoteAddr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		return nil, err
+	}
+	c := proto.NewPriceFetcherClient(conn)
+	return c, nil
 }
