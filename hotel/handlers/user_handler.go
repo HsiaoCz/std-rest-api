@@ -26,3 +26,9 @@ func HandleGetUserByID(c *fiber.Ctx) error {
 		"msg": "james",
 	})
 }
+
+func HandleUpdateUser(c *fiber.Ctx) error {
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"message": "update success",
+	})
+}
