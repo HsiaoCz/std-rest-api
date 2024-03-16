@@ -3,6 +3,7 @@ module github.com/HsiaoCz/std-rest-api
 go 1.21.3
 
 require (
+	github.com/VictorLowther/btree v0.1.5
 	github.com/a-h/templ v0.2.543
 	github.com/confluentinc/confluent-kafka-go/v2 v2.3.0
 	github.com/go-sql-driver/mysql v1.7.1
@@ -10,6 +11,7 @@ require (
 	github.com/google/uuid v1.5.0
 	github.com/gorilla/mux v1.8.1
 	github.com/gorilla/websocket v1.5.1
+	github.com/julienschmidt/httprouter v1.3.0
 	github.com/lib/pq v1.10.9
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.9.0
